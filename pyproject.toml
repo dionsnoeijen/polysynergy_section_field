@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "polysynergy_section_field"
+version = "0.1.0"
+description = "Dynamic content field types for PolySynergy"
+authors = ["Dion Snoeijen"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
