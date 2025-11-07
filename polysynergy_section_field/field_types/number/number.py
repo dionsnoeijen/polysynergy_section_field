@@ -95,3 +95,50 @@ class NumberField(FieldType):
             sql += ' NOT NULL'
 
         return sql
+
+    def get_table_cell_config(
+        self,
+        value: Any,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for table cell display"""
+        allow_decimals = settings.get("allowDecimals", True) if settings else True
+
+        return {
+            "component": "NumberCell",
+            "props": {
+                "value": value,
+                "decimals": 2 if allow_decimals else 0,
+                "format": "decimal",  # or "currency", "percentage"
+            }
+        }
+
+    def get_form_input_config(
+        self,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for form input"""
+        min_val = settings.get("min") if settings else None
+        max_val = settings.get("max") if settings else None
+        step = settings.get("step", 1) if settings else 1
+        allow_decimals = settings.get("allowDecimals", True) if settings else True
+
+        return {
+            "component": "NumberInput",
+            "props": {
+                "label": field_config.get("label") if field_config else None,
+                "placeholder": field_config.get("placeholder") if field_config else None,
+                "helpText": field_config.get("help_text") if field_config else None,
+                "min": min_val,
+                "max": max_val,
+                "step": step,
+                "allowDecimals": allow_decimals,
+            },
+            "validation": {
+                "required": field_config.get("is_required", False) if field_config else False,
+                "min": min_val,
+                "max": max_val,
+            }
+        }

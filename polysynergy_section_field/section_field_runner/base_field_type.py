@@ -220,5 +220,83 @@ class FieldType(ABC):
         """
         return None
 
+    def get_table_cell_config(
+        self,
+        value: Any,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """
+        Get UI configuration for table cell display (read-only).
+
+        Args:
+            value: The actual value to display
+            settings: Field-specific settings
+            field_config: Complete field configuration (label, help_text, etc.)
+
+        Returns:
+            Dictionary with component name and props for table cell
+
+        Example:
+            {
+                "component": "TextCell",
+                "props": {
+                    "value": "Hello World",
+                    "truncate": True,
+                    "maxLength": 50
+                }
+            }
+        """
+        return {
+            "component": "TextCell",
+            "props": {
+                "value": value,
+                "truncate": True,
+                "maxLength": 50,
+            }
+        }
+
+    def get_form_input_config(
+        self,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """
+        Get UI configuration for form input (interactive).
+
+        Args:
+            settings: Field-specific settings
+            field_config: Complete field configuration (label, help_text, placeholder, etc.)
+
+        Returns:
+            Dictionary with component name, props, and validation rules
+
+        Example:
+            {
+                "component": "TextInput",
+                "props": {
+                    "label": "Company Name",
+                    "placeholder": "Enter company name",
+                    "maxLength": 200
+                },
+                "validation": {
+                    "required": True,
+                    "minLength": 2,
+                    "maxLength": 200
+                }
+            }
+        """
+        return {
+            "component": "TextInput",
+            "props": {
+                "label": field_config.get("label") if field_config else None,
+                "placeholder": field_config.get("placeholder") if field_config else None,
+                "helpText": field_config.get("help_text") if field_config else None,
+            },
+            "validation": {
+                "required": field_config.get("is_required", False) if field_config else False,
+            }
+        }
+
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}(handle='{self.handle}')>"

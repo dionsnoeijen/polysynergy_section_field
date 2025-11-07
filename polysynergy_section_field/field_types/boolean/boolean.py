@@ -70,3 +70,41 @@ class BooleanField(FieldType):
             sql += ' NOT NULL'
 
         return sql
+
+    def get_table_cell_config(
+        self,
+        value: Any,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for table cell display"""
+        return {
+            "component": "BooleanCell",
+            "props": {
+                "value": value,
+                "iconTrue": "✓",  # or "check-circle"
+                "iconFalse": "✗",  # or "x-circle"
+                "colorTrue": "green",
+                "colorFalse": "red",
+            }
+        }
+
+    def get_form_input_config(
+        self,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for form input"""
+        default_value = self.get_default_value(settings)
+
+        return {
+            "component": "Toggle",
+            "props": {
+                "label": field_config.get("label") if field_config else None,
+                "helpText": field_config.get("help_text") if field_config else None,
+                "defaultValue": default_value,
+            },
+            "validation": {
+                "required": field_config.get("is_required", False) if field_config else False,
+            }
+        }

@@ -50,6 +50,11 @@ class TextField(FieldType):
                     "type": "string",
                     "title": "Regex Pattern",
                     "description": "Regular expression for validation"
+                },
+                "placeholder": {
+                    "type": "string",
+                    "title": "Placeholder",
+                    "description": "Placeholder text shown when field is empty"
                 }
             }
         }
@@ -98,3 +103,48 @@ class TextField(FieldType):
             sql += ' NOT NULL'
 
         return sql
+
+    def get_table_cell_config(
+        self,
+        value: Any,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for table cell display"""
+        max_len = settings.get("maxLength") if settings else None
+
+        return {
+            "component": "TextCell",
+            "props": {
+                "value": value,
+                "truncate": True,
+                "maxLength": max_len or 50,
+            }
+        }
+
+    def get_form_input_config(
+        self,
+        settings: Optional[Dict] = None,
+        field_config: Optional[Dict] = None
+    ) -> Dict:
+        """UI config for form input"""
+        max_len = settings.get("maxLength") if settings else None
+        min_len = settings.get("minLength") if settings else None
+        pattern = settings.get("pattern") if settings else None
+        placeholder = settings.get("placeholder") if settings else None
+
+        return {
+            "component": "TextInput",
+            "props": {
+                "label": field_config.get("label") if field_config else None,
+                "placeholder": placeholder,
+                "helpText": field_config.get("help_text") if field_config else None,
+                "maxLength": max_len,
+            },
+            "validation": {
+                "required": field_config.get("is_required", False) if field_config else False,
+                "minLength": min_len,
+                "maxLength": max_len,
+                "pattern": pattern,
+            }
+        }
