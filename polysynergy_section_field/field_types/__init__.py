@@ -1,7 +1,7 @@
 """Field types for section field system"""
 
 # Import all field type modules to trigger @field_type decorator registration
-from .text import TextField, TextAreaField
+from .text import TextField, TextAreaField, HtmlField
 from .number import NumberField
 from .boolean import BooleanField
 from .relation import RelationManyToOneField, RelationOneToManyField, RelationManyToManyField
@@ -15,6 +15,7 @@ __all__ = [
     # Basic types
     "TextField",
     "TextAreaField",
+    "HtmlField",
     "NumberField",
     "BooleanField",
     # Relations
