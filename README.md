@@ -62,4 +62,6 @@ poetry run pytest
 
 ## License
 
-Proprietary - Part of PolySynergy orchestrator system
+This project is licensed under the Business Source License 1.1 - see the [LICENSE](LICENSE) file for details.
+
+The Licensed Work will be made available under the Apache License, Version 2.0 on January 1, 2030.
